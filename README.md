@@ -2,7 +2,7 @@
 
 This folder contains all experiments related to the DBRA paper. The `baseline` directory includes methods such as ITDS and ESMA; however, ESMA was not used in the paper because it does not satisfy both transferability and targeted attack properties.
 
-> Due to GitHub limitations, the pre-trained and partitioned models have been uploaded to external links. Place the corresponding model files in the folders named after each experiment and adjust the paths as needed.
+> Due to GitHub limitations, the pre-trained models and partitioned datasets have been uploaded to [external links](https://huggingface.co/datasets/qwdugbk/DBRA)(datasets). Place the corresponding model files in the folders named after each experiment and adjust the paths as needed.
 
 If you have questions, please contact: zecliu@whu.edu.cn
 
