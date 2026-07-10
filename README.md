@@ -1,33 +1,57 @@
-# ITDS
+# DBRA Experiment Repository
 
-This repository contains code to reproduce results from the paper:
+This folder contains all experiments related to the DBRA paper. The `baseline` directory includes methods such as ITDS and ESMA; however, ESMA was not used in the paper because it does not satisfy both transferability and targeted attack properties.
 
-[Enhancing Transferability of Targeted Adversarial Examples via Inverse Target Gradient Competition and Spatial Distance Stretching]()
+> Due to GitHub limitations, the pre-trained models and partitioned datasets have been uploaded to [datasets](https://huggingface.co/datasets/qwdugbk/DBRA) and [models](https://huggingface.co/qwdugbk/DBRA-models). Place the corresponding model files in the folders named after each experiment and adjust the paths as needed.
 
-## Requirements
+If you have questions, please contact: zecliu@whu.edu.cn or songwei@whu.edu.cn
 
-```bash
-Python >= 3.9.13
-torch >= 1.11.0
-torchvision >= 0.12.0
-numpy >= 1.23.3
-scipy >= 1.9.3
-```
+## Directory Overview
 
-## Quick Start
+- `observation_experiment`: contains cross-model transfer experiments.
+- `attack`: contains the main attack experiments, ablation studies, parameter analysis, and defense experiments.
+- `confs`: contains configuration files for devices, attack settings, etc. The default configurations match the main experiments.
+- `utils`: contains model loading, dataset loading, and other utilities. Because finetuning algorithms store models differently than models trained by PFLlib, you may need to adjust the loader in `utils/pfl_dataset_utils.py`.
 
-### Prepare the data and models
+## Before Running
 
-This is just a sample code version, and for ease of use, all AEs correspond to a unified random target label in this version.
+Make sure you have checked and updated path settings for logs, datasets, and model files in each script before running.
 
-For clean (non-targeted) samples and targeted samples, you can place data in `./eval_data/clean_data/` and `./eval_data/tg_data/`, respectively. (The recommended sample size is 3&times;224&times;224.)
+## Run Instructions
 
-For models, all normal training models are from the pytorch official website, and the calling method is already in the `craft.py` and `eval.py`, or you can consult the official documentation to use other models. And for all adversarial training defense models, you can download from [here](https://drive.google.com/file/d/13DcsFytr4P1A52xwvbvkg2TS2tL185Oe/view?usp=sharing) and place it in `./defense_models/`, their calling methods are also integrated into our codes (Have been commented).
+### Cross-model transfer validation experiments
 
-### Running Attack
+Run one of the following files directly:
 
-Taking ITDS attack for example, you can run this attack as following: `CUDA_VISIBLE_DEVICES=gpuid python craft.py`
+- `observation_experiment/transfer_experiments_cifar100.py`
+- `observation_experiment/transfer_experiments_miniimg.py`
 
-### Evaluating the Attack
+### Main attack experiments
 
-The generated adversarial examples would be stored in directory `./adv_examples/`. Then run the file ASR_eval.py to evaluate the success rate of each model used in the paper: `CUDA_VISIBLE_DEVICES=gpuid python eval.py`
+Run the appropriate script for the dataset:
+
+- `attack/attack_executor_{dataset}.py`
+
+### Parameter analysis experiments
+
+1. Update dataset paths in `confs/data_conf.py`.
+2. Update model paths in `utils/load_utils.py`.
+3. For attacker parameter experiments, adjust parameters in `confs/implantation_confs.py`.
+4. For ablation analysis and attacker data experiments, run:
+   - `attack/dbra_parallel.py`
+   - `attack/ablation_parallel.py`
+5. For victim dataset condition analysis, run:
+   - `attack/attack_executor_cifar10.py`
+
+### Comparison experiments with Adversary Sample
+
+1. Configure the defense method in `attack/attack_all_dbra.py` (default is JPEG compression around line 152).
+2. Start the baseline experiments:
+   - Navigate to `baseline/ITDS_main/`
+   - For parameter analysis, run `attack_fl_param_analysis.py` (ITDS is very slow).
+   - To use pre-tested parameters directly, run `attack_fl.py`.
+
+### Finetuning experiments
+
+1. Modify the model loading method and path as described above.
+2. Run `attack/attack_finetuned_model.py`.
