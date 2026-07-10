@@ -4,7 +4,7 @@ This folder contains all experiments related to the DBRA paper. The `baseline` d
 
 > Due to GitHub limitations, the pre-trained models and partitioned datasets have been uploaded to [datasets](https://huggingface.co/datasets/qwdugbk/DBRA) and [models](https://huggingface.co/qwdugbk/DBRA-models). Place the corresponding model files in the folders named after each experiment and adjust the paths as needed.
 
-If you have questions, please contact: zecliu@whu.edu.cn
+If you have questions, please contact: zecliu@whu.edu.cn or songwei@whu.edu.cn
 
 ## Directory Overview
 
